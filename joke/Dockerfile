@@ -1,6 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS builder
 WORKDIR /app
 COPY . ./
+
+WORKDIR /app/joketests
+RUN dotnet test
+
 RUN dotnet publish -c Release -o out
 
 
