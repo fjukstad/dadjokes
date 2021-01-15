@@ -5,6 +5,7 @@ COPY . ./
 WORKDIR /app/joketests
 RUN dotnet test
 
+WORKDIR /app
 RUN dotnet publish -c Release -o out
 
 
