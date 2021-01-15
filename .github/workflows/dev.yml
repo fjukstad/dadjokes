@@ -28,3 +28,16 @@ jobs:
           tags: |
             fjukstad/joke:1.0.${{ github.run_number	}}
             fjukstad/joke:latest
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: Azure/aci-deploy@v1
+        with:
+          resource-group: bfj-test
+          dns-name-label: joke-dev
+          image: fjukstad/joke:1.0.${{ github.run_number	}}
+          name: joke-dev
+          location: "westeurope"
+          ports: "80 443"
+          environment-variables: DOTNET_ENVIRONMENT=Development
