@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +33,11 @@ namespace joke
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Joke");
+                    var client = new HttpClient { };
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "text/plain");
+                    var response = await client.GetAsync("https://icanhazdadjoke.com");
+                    var joke = await response.Content.ReadAsStringAsync();
+                    await context.Response.WriteAsync($"{joke}");
                 });
             });
         }
